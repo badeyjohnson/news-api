@@ -27,11 +27,14 @@ exports.seed = (knex, Promise) => {
       const commentsWithArticleId = replaceKey(
         commentsData,
         lookupArticleIdTable,
-        'comment_article',
-        'comment_article_id',
+        'article',
+        'belongs_to',
       );
+      const commentsDataTimeReformat = commentsWithArticleId.map((comment) => {
+        return { ...comment, created_at: dateFormat(comment.created_at) };
+      });
       return knex('comments')
-        .insert(commentsWithArticleId)
+        .insert(commentsDataTimeReformat)
         .returning('*');
     });
 };

@@ -19,7 +19,7 @@ describe('/', () => {
           .get('/api/topics')
           .expect(200)
           .then(({ body: { topics } }) => {
-            expect(topics).to.be.lengthOf(5);
+            expect(topics).to.be.lengthOf(2);
             topics.forEach(topic => expect(topic).to.contain.keys('slug', 'description'));
           });
       });
@@ -30,15 +30,15 @@ describe('/', () => {
           .get('/api/articles')
           .expect(200)
           .then(({ body: { articles } }) => {
-            expect(articles).to.be.lengthOf(4);
+            expect(articles).to.be.lengthOf(12);
             articles.forEach(article => expect(article).to.contain.keys(
               'article_id',
-              'article_title',
-              'article_body',
-              'article_votes',
-              'article_topic',
-              'article_author',
-              'article_created_at',
+              'title',
+              'body',
+              'votes',
+              'topic',
+              'author',
+              'created_at',
             ));
           });
       });
