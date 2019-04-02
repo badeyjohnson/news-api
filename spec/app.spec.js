@@ -20,7 +20,7 @@ describe('/', () => {
           .expect(200)
           .then(({ body: { topics } }) => {
             expect(topics).to.be.lengthOf(5);
-            topics.forEach(topic => expect(topic).to.contain.keys('topic_name', 'topic_description'));
+            topics.forEach(topic => expect(topic).to.contain.keys('slug', 'topic_description'));
           });
       });
     });

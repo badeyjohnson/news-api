@@ -11,7 +11,11 @@ exports.up = function (knex, Promise) {
       .integer('article_votes')
       .notNullable()
       .defaultTo(0);
-    articlesTable.string('article_topic').notNullable();
+    articlesTable
+      .string('article_topic')
+      .notNullable()
+      .references('slug')
+      .inTable('topics');
     articlesTable
       .string('article_author')
       .references('user_username')
