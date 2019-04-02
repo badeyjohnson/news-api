@@ -62,6 +62,15 @@ describe('/', () => {
               expect(article).to.eql(article5);
             });
         });
+        it('GET status:200 invalid article number', () => {
+          return request
+            .get('/api/articles/invalid')
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql('Invalid article number');
+            });
+        });
+
       });
     });
     describe('/*', () => {

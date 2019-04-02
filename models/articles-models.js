@@ -1,12 +1,10 @@
 const connection = require('../db/connection');
 
-exports.getAllArticles = () => {
-  return connection.select('*').from('articles');
-};
-
-exports.getByArticleId = ({ article_id }) => {
+exports.getArticles = ({ article_id }) => {
   return connection
     .select('*')
     .from('articles')
-    .where({ article_id });
+    .modify((queryBuilder) => {
+      if (article_id !== undefined) queryBuilder.where({ article_id });
+    });
 };
