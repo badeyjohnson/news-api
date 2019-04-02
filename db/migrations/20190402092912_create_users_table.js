@@ -2,15 +2,15 @@ exports.up = function (knex, Promise) {
   //console.log('creating users table...');
   return knex.schema.createTable('users', (usersTable) => {
     usersTable
-      .string('user_username')
+      .string('username')
       .notNullable()
       .primary()
       .unique();
     usersTable
-      .string('user_avatar_url')
+      .string('avatar_url')
       .notNullable()
       .unique();
-    usersTable.string('user_name').notNullable();
+    usersTable.string('name').notNullable();
   });
 };
 

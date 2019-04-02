@@ -5,23 +5,23 @@ exports.up = function (knex, Promise) {
       .increments('article_id')
       .notNullable()
       .primary();
-    articlesTable.string('article_title').notNullable();
-    articlesTable.text('article_body').notNullable();
+    articlesTable.string('title').notNullable();
+    articlesTable.text('body').notNullable();
     articlesTable
-      .integer('article_votes')
+      .integer('votes')
       .notNullable()
       .defaultTo(0);
     articlesTable
-      .string('article_topic')
+      .string('topic')
       .notNullable()
       .references('slug')
       .inTable('topics');
     articlesTable
-      .string('article_author')
-      .references('user_username')
+      .string('author')
+      .references('username')
       .inTable('users');
     articlesTable
-      .timestamp('article_created_at')
+      .timestamp('created_at')
       .notNullable()
       .defaultTo(knex.fn.now());
   });

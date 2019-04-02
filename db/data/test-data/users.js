@@ -1,27 +1,17 @@
 module.exports = [
   {
-    user_username: 'user-1',
-    user_avatar_url: 'https://en.wikipedia.org/wiki/Aang',
-    user_name: 'a-name',
+    username: 'butter_bridge',
+    name: 'jonny',
+    avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
   },
   {
-    user_username: 'user-2',
-    user_avatar_url: 'https://en.wikipedia.org/wiki/Iroh',
-    user_name: 'b-name',
+    username: 'icellusedkars',
+    name: 'sam',
+    avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
   },
   {
-    user_username: 'user-3',
-    user_avatar_url: 'https://en.wikipedia.org/wiki/Appa_(character)',
-    user_name: 'c-name',
-  },
-  {
-    user_username: 'user-4',
-    user_avatar_url: 'https://en.wikipedia.org/wiki/Sokka',
-    user_name: 'd-name',
-  },
-  {
-    user_username: 'user-5',
-    user_avatar_url: 'https://en.wikipedia.org/wiki/Azula',
-    user_name: 'e-name',
+    username: 'rogersop',
+    name: 'paul',
+    avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
   },
 ];

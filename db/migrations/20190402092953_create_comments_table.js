@@ -5,22 +5,22 @@ exports.up = function (knex, Promise) {
       .increments('comment_id')
       .notNullable()
       .primary();
-    commentsTable.text('comment_body').notNullable();
+    commentsTable.text('body').notNullable();
     commentsTable
-      .integer('comment_votes')
+      .integer('votes')
       .notNullable()
       .defaultTo(0);
     commentsTable
-      .string('comment_author')
-      .references('user_username')
+      .string('created_by')
+      .references('username')
       .inTable('users');
     commentsTable
-      .integer('comment_article_id')
+      .integer('belongs_to')
       .unsigned()
       .references('article_id')
       .inTable('articles');
     commentsTable
-      .timestamp('comment_created_at')
+      .timestamp('created_at')
       .notNullable()
       .defaultTo(knex.fn.now());
   });

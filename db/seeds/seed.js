@@ -2,7 +2,7 @@ const {
   topicsData, usersData, articlesData, commentsData,
 } = require('../data');
 
-const { createLookup, replaceKey } = require('../utils');
+const { createLookup, replaceKey, dateFormat } = require('../utils');
 
 exports.seed = (knex, Promise) => {
   return knex.migrate
@@ -14,9 +14,14 @@ exports.seed = (knex, Promise) => {
     .then(() => knex('users')
       .insert(usersData)
       .returning('*'))
-    .then(() => knex('articles')
-      .insert(articlesData)
-      .returning('*'))
+    .then(() => {
+      const articlesDataTimeReformat = articlesData.map((article) => {
+        return { ...article, created_at: dateFormat(article.created_at) };
+      });
+      return knex('articles')
+        .insert(articlesDataTimeReformat)
+        .returning('*');
+    })
     .then((insertedArticles) => {
       const lookupArticleIdTable = createLookup(insertedArticles, 'article_title', 'article_id');
       const commentsWithArticleId = replaceKey(

@@ -12,3 +12,7 @@ exports.replaceKey = (arr, lookupObj, keyToRemove, keyToAdd) => {
     return item;
   });
 };
+
+exports.dateFormat = (unixMillisecs) => {
+  return new Date(unixMillisecs);
+};

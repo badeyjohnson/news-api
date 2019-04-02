@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { createLookup, replaceKey } = require('../db/utils');
+const { createLookup, replaceKey, dateFormat } = require('../db/utils');
 
 describe('createLookup()', () => {
   it('creates a lookup table from an array containing one objects', () => {
@@ -49,10 +49,15 @@ describe('replaceKey()', () => {
       firstArticle: 1,
       secondArticle: 2,
     };
-    const output = [
-      { title_id: 1, body: 'SomeText' },
-      { title_id: 2, body: 'SomeOtherText' },
-    ];
+    const output = [{ title_id: 1, body: 'SomeText' }, { title_id: 2, body: 'SomeOtherText' }];
     expect(replaceKey(arr, lookupObj, 'title', 'title_id')).to.eql(output);
+  });
+});
+
+describe('dateFormat()', () => {
+  it('reformats the date from unix time', () => {
+    const inputDate = 1416140514171;
+    const outputDate = new Date('2014-11-16 12:21:54.171');
+    expect(dateFormat(inputDate)).to.eql(outputDate);
   });
 });
