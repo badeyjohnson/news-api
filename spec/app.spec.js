@@ -58,8 +58,8 @@ describe('/', () => {
           return request
             .get('/api/articles/5')
             .expect(200)
-            .then(({ body: { article } }) => {
-              expect(article).to.eql(article5);
+            .then(({ body: { articles } }) => {
+              expect(articles).to.eql(article5);
             });
         });
         it('GET status:200 invalid article number', () => {
