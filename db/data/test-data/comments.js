@@ -1,6 +1,6 @@
 module.exports = [
   {
-    comment_body: 'a commment',
+    comment_body: 'a comment',
     comment_author: 'user-1',
     comment_article: 'article-1',
   },
