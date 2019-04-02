@@ -1,17 +1,19 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es6": true
-    },
-    "extends": "standard",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parserOptions": {
-        "ecmaVersion": 2018
-    },
-    "rules": {
-    }
+  "extends": "airbnb-base",
+  "env": {
+      "mocha": true
+  },
+  "rules": {
+      "no-unused-vars": [
+          1,
+          {
+              "argsIgnorePattern": "Promise|res|next|^err"
+          }
+      ],
+      "camelcase": 0,
+      "func-names": 0,
+      "arrow-body-style": 0,
+      "no-param-reassign": 0,
+      "prefer-promise-reject-errors": 0
+  }
 }
