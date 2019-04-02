@@ -42,6 +42,35 @@ describe('/', () => {
             ));
           });
       });
+      describe('/articles/:article_id', () => {
+        it('GET status:200 returns the requested article', () => {
+          const article5 = [
+            {
+              article_id: 5,
+              title: 'UNCOVERED: catspiracy to bring down democracy',
+              topic: 'cats',
+              author: 'rogersop',
+              body: 'Bastet walks amongst us, and the cats are taking arms!',
+              created_at: '2002-11-19T12:21:54.171Z',
+              votes: 0,
+            },
+          ];
+          return request
+            .get('/api/articles/5')
+            .expect(200)
+            .then(({ body: { article } }) => {
+              expect(article).to.eql(article5);
+            });
+        });
+      });
+    });
+    describe('/*', () => {
+      it('ALL status:404 catches invalid URLs', () => request
+        .get('/invalid')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).to.eql('Route Not Found');
+        }));
     });
   });
 });
