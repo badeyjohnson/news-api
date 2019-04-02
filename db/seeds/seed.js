@@ -17,7 +17,16 @@ exports.seed = (knex, Promise) => {
     .then(() => knex('articles')
       .insert(articlesData)
       .returning('*'))
-    .then(insertedArticles => knex('comments')
-      .insert(commentsData)
-      .returning('*'));
+    .then((insertedArticles) => {
+      const lookupArticleIdTable = createLookup(insertedArticles, 'article_title', 'article_id');
+      const commentsWithArticleId = replaceKey(
+        commentsData,
+        lookupArticleIdTable,
+        'comment_article',
+        'comment_article_id',
+      );
+      return knex('comments')
+        .insert(commentsWithArticleId)
+        .returning('*');
+    });
 };
