@@ -273,6 +273,32 @@ describe('/', () => {
                 });
               });
           });
+          it('GET status:200 default sort order and sort_by', () => {
+            return request
+              .get('/api/articles/1/comments')
+              .expect(200)
+              .then(({ body: { comments } }) => {
+                expect(comments).to.be.sortedBy('created_at', { descending: true });
+              });
+          });
+          describe('/articles/:articles_id/comments?queries', () => {
+            it('GET status:200 accepts sort by queries', () => {
+              return request
+                .get('/api/articles/1/comments?sort_by=author')
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.sortedBy('author', { descending: true });
+                });
+            });
+            it('GET status:200 accepts sort order queries', () => {
+              return request
+                .get('/api/articles/1/comments?order=asc')
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.sortedBy('created_at', { descending: false });
+                });
+            });
+          });
         });
       });
     });
