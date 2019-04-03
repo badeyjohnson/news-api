@@ -7,9 +7,10 @@ exports.createLookup = (arr, key, value) => {
 
 exports.replaceKey = (arr, lookupObj, keyToRemove, keyToAdd) => {
   return arr.map((item) => {
-    item[keyToAdd] = lookupObj[item[keyToRemove]];
-    delete item[keyToRemove];
-    return item;
+    const newItem = { ...item };
+    newItem[keyToAdd] = lookupObj[item[keyToRemove]];
+    delete newItem[keyToRemove];
+    return newItem;
   });
 };
 

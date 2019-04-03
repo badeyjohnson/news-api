@@ -2,13 +2,21 @@ const connection = require('../db/connection');
 
 exports.getArticles = ({ article_id }) => {
   return connection
-    .select()
+    .select(
+      'author',
+      'title',
+      'articles.article_id',
+      'topic',
+      'articles.created_at',
+      'articles.votes',
+    )
     .from('articles')
-    .leftjoin('comments', 'articles.article_id', 'comments.belongs_to')
-    .groupby('article_id')
-    .count('comment_id')
+    .leftJoin('comments', 'articles.article_id', 'comments.article_id')
+    .count('comment_id as comment_count')
+    .groupBy('articles.article_id')
+    .orderBy('articles.article_id')
     .modify((queryBuilder) => {
-      if (article_id !== undefined) queryBuilder.where({ article_id });
+      if (article_id !== undefined) queryBuilder.where({ 'articles.article_id': article_id });
     });
 };
 

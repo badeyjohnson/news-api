@@ -38,7 +38,6 @@ describe('/', () => {
               'topic',
               'created_at',
               'votes',
-              'body',
             ));
           });
       });
@@ -47,7 +46,7 @@ describe('/', () => {
           .get('/api/articles')
           .expect(200)
           .then(({ body: { articles } }) => {
-            expect(articles[0].comment_count).to.equal(12);
+            expect(articles[0].comment_count).to.equal('13');
             articles.forEach(article => expect(article).to.contain.keys(
               'comment_count',
             ));
@@ -61,9 +60,9 @@ describe('/', () => {
               title: 'UNCOVERED: catspiracy to bring down democracy',
               topic: 'cats',
               author: 'rogersop',
-              body: 'Bastet walks amongst us, and the cats are taking arms!',
               created_at: '2002-11-19T12:21:54.171Z',
               votes: 0,
+              comment_count: '2',
             },
           ];
           return request
