@@ -234,7 +234,7 @@ describe('/', () => {
             .delete('/api/articles/300')
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).to.eql('Article already doesn\'t exist');
+              expect(msg).to.eql("Article already doesn't exist");
             });
         });
         it('DELETE status:400 invalid article number', () => {
@@ -254,6 +254,25 @@ describe('/', () => {
               });
           });
           return Promise.all(promises);
+        });
+        describe('/articles/:articles_id/comments', () => {
+          it('GET status:200 gets comments for a specified article', () => {
+            return request
+              .get('/api/articles/1/comments')
+              .expect(200)
+              .then(({ body: { comments } }) => {
+                expect(comments).to.be.lengthOf(13);
+                comments.forEach((comment) => {
+                  expect(comment).to.contain.keys(
+                    'author',
+                    'comment_id',
+                    'created_at',
+                    'votes',
+                    'body',
+                  );
+                });
+              });
+          });
         });
       });
     });
