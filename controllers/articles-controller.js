@@ -27,7 +27,15 @@ exports.updateArticle = (req, res, next) => {
 };
 
 exports.removeArticle = (req, res, next) => {
-  deleteArticle(req.params).then(() => {
-    res.status(204).json();
-  });
+  deleteArticle(req.params)
+    .then((response) => {
+      if (response.length === 0) {
+        next({ status: 404, msg: "Article already doesn't exist" });
+      } else {
+        res.status(204).json();
+      }
+    })
+    .catch(() => {
+      next({ status: 400, msg: 'Invalid article number' });
+    });
 };
