@@ -70,10 +70,10 @@ describe('/', () => {
               expect(msg).to.eql('Article does not exist');
             });
         });
-        it('GET status:404 NaN article number', () => {
+        it('GET status:400 NaN article number', () => {
           return request
             .get('/api/articles/invalid')
-            .expect(404)
+            .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).to.eql('Invalid article number');
             });
@@ -81,11 +81,21 @@ describe('/', () => {
         it('PATCH status:200 amends a specific article', () => {
           const ballotBox = { inc_votes: 100 };
           return request
+            .patch('/api/articles/5')
+            .send(ballotBox)
+            .expect(200)
+            .then(({ body: { article } }) => {
+              expect(article[0].votes).to.eql(100);
+            });
+        });
+        it('PATCH status:200 adds to the votes count', () => {
+          const ballotBox = { inc_votes: 100 };
+          return request
             .patch('/api/articles/1')
             .send(ballotBox)
             .expect(200)
-            .then(({ body: { article }}) => {
-              expect(article[0].votes).to.eql(100);
+            .then(({ body: { article } }) => {
+              expect(article[0].votes).to.eql(200);
             });
         });
         it('PATCH status:404 non-existent article number', () => {
@@ -98,12 +108,12 @@ describe('/', () => {
               expect(msg).to.eql('Article does not exist');
             });
         });
-        it('PATCH status:404 NaN article number', () => {
+        it('PATCH status:400 NaN article number', () => {
           const ballotBox = { inc_votes: 100 };
           return request
             .patch('/api/articles/invalid')
             .send(ballotBox)
-            .expect(404)
+            .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).to.eql('Invalid article number');
             });

@@ -9,7 +9,7 @@ exports.fetchArticles = (req, res, next) => {
         res.status(200).json({ articles });
       }
     })
-    .catch(() => next({ status: 404, msg: 'Invalid article number' }));
+    .catch(() => next({ status: 400, msg: 'Invalid article number' }));
 };
 
 exports.updateArticle = (req, res, next) => {
@@ -21,5 +21,5 @@ exports.updateArticle = (req, res, next) => {
         res.status(200).json({ article });
       }
     })
-    .catch(() => next({ status: 404, msg: 'Invalid article number' }));
+    .catch(() => next({ status: 400, msg: 'Invalid article number' }));
 };

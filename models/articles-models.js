@@ -12,6 +12,6 @@ exports.getArticles = ({ article_id }) => {
 exports.patchArticle = ({ article_id }, { inc_votes }) => {
   return connection('articles')
     .where({ article_id })
-    .update({ votes: inc_votes })
+    .increment('votes', inc_votes)
     .returning('*');
 };
