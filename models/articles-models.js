@@ -1,6 +1,7 @@
 const connection = require('../db/connection');
 
-exports.getArticles = ({ article_id }) => {
+exports.getArticles = ({ ...queries }, { article_id }) => {
+  //console.log(queries)
   return connection
     .select(
       'author',
@@ -15,6 +16,7 @@ exports.getArticles = ({ article_id }) => {
     .count('comment_id as comment_count')
     .groupBy('articles.article_id')
     .orderBy('articles.article_id')
+    .where(queries)
     .modify((queryBuilder) => {
       if (article_id !== undefined) queryBuilder.where({ 'articles.article_id': article_id });
     });

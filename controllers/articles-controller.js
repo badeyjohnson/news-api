@@ -1,7 +1,7 @@
 const { getArticles, patchArticle } = require('../models/articles-models');
 
 exports.fetchArticles = (req, res, next) => {
-  getArticles(req.params)
+  getArticles(req.query, req.params)
     .then((articles) => {
       if (articles.length === 0) {
         next({ status: 404, msg: 'Article does not exist' });

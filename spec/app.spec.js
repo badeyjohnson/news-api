@@ -47,10 +47,19 @@ describe('/', () => {
           .expect(200)
           .then(({ body: { articles } }) => {
             expect(articles[0].comment_count).to.equal('13');
-            articles.forEach(article => expect(article).to.contain.keys(
-              'comment_count',
-            ));
+            articles.forEach(article => expect(article).to.contain.keys('comment_count'));
           });
+      });
+      describe('/articles?queries', () => {
+        it('GET status:200 accepts author queries', () => {
+          return request
+            .get('/api/articles?author=butter_bridge')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.lengthOf(3);
+              articles.forEach(article => expect(article.author).to.eql('butter_bridge'));
+            });
+        });
       });
       describe('/articles/:article_id', () => {
         it('GET status:200 returns the requested article', () => {
