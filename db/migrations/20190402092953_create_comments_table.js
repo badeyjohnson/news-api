@@ -15,7 +15,7 @@ exports.up = function (knex, Promise) {
       .references('username')
       .inTable('users');
     commentsTable
-      .integer('belongs_to')
+      .integer('article_id')
       .unsigned()
       .references('article_id')
       .inTable('articles');

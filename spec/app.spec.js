@@ -32,13 +32,24 @@ describe('/', () => {
           .then(({ body: { articles } }) => {
             expect(articles).to.be.lengthOf(12);
             articles.forEach(article => expect(article).to.contain.keys(
-              'article_id',
-              'title',
-              'body',
-              'votes',
-              'topic',
               'author',
+              'title',
+              'article_id',
+              'topic',
               'created_at',
+              'votes',
+              'body',
+            ));
+          });
+      });
+      it('GET status:200 returns each article with a comment count', () => {
+        return request
+          .get('/api/articles')
+          .expect(200)
+          .then(({ body: { articles } }) => {
+            expect(articles[0].comment_count).to.equal(12);
+            articles.forEach(article => expect(article).to.contain.keys(
+              'comment_count',
             ));
           });
       });

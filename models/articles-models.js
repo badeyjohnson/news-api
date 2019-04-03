@@ -4,6 +4,9 @@ exports.getArticles = ({ article_id }) => {
   return connection
     .select()
     .from('articles')
+    .leftjoin('comments', 'articles.article_id', 'comments.belongs_to')
+    .groupby('article_id')
+    .count('comment_id')
     .modify((queryBuilder) => {
       if (article_id !== undefined) queryBuilder.where({ article_id });
     });

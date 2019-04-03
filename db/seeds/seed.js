@@ -23,12 +23,12 @@ exports.seed = (knex, Promise) => {
         .returning('*');
     })
     .then((insertedArticles) => {
-      const lookupArticleIdTable = createLookup(insertedArticles, 'article_title', 'article_id');
+      const lookupArticleIdTable = createLookup(insertedArticles, 'title', 'article_id');
       const commentsWithArticleId = replaceKey(
         commentsData,
         lookupArticleIdTable,
-        'article',
         'belongs_to',
+        'article_id',
       );
       const commentsDataTimeReformat = commentsWithArticleId.map((comment) => {
         return { ...comment, created_at: dateFormat(comment.created_at) };
