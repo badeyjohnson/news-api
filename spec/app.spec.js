@@ -1,6 +1,9 @@
 process.env.NODE_ENV = 'test';
 
-const { expect } = require('chai');
+const chai = require('chai');
+chai.use(require('chai-sorted'));
+
+const { expect } = chai;
 const supertest = require('supertest');
 
 const app = require('../app');
@@ -58,6 +61,39 @@ describe('/', () => {
             .then(({ body: { articles } }) => {
               expect(articles).to.be.lengthOf(3);
               articles.forEach(article => expect(article.author).to.eql('butter_bridge'));
+            });
+        });
+        it('GET status:200 accepts topic queries', () => {
+          return request
+            .get('/api/articles?topic=mitch')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.lengthOf(11);
+              articles.forEach(article => expect(article.topic).to.eql('mitch'));
+            });
+        });
+        it('GET status:200 accepts sort_by queries', () => {
+          return request
+            .get('/api/articles?sort_by=author')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('author', { descending: true });
+            });
+        });
+        it('GET status:200 accepts sort order', () => {
+          return request
+            .get('/api/articles?order=asc')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('created_at', { descending: false });
+            });
+        });
+        it('GET status:200 defaults to date sort_by, descending', () => {
+          return request
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('created_at', { descending: true });
             });
         });
       });
