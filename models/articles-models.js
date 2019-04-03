@@ -1,6 +1,6 @@
 const connection = require('../db/connection');
 
-exports.getArticles = ({ sort_by = 'created_at', order = 'desc', ...queries }, { article_id }) => {
+exports.getArticles = ({ sort_by, order, ...queries }, { article_id }) => {
   const validQueries = [
     'author',
     'title',
@@ -16,6 +16,14 @@ exports.getArticles = ({ sort_by = 'created_at', order = 'desc', ...queries }, {
       delete queries[key];
     }
   });
+
+  if (!validQueries.includes(sort_by)) {
+    sort_by = 'created_at';
+  }
+
+  if (!['asc', 'desc'].includes(order)) {
+    order = 'desc';
+  }
 
   return connection
     .select(

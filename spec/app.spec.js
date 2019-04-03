@@ -104,6 +104,31 @@ describe('/', () => {
               expect(articles).to.be.sortedBy('created_at', { descending: true });
             });
         });
+        it('GET status:200 ignores invalid query', () => {
+          return request
+            .get('/api/articles?topic=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.lengthOf(0);
+            });
+        });
+        it('GET status:200 ignores incorrect sort_by query', () => {
+          return request
+            .get('/api/articles?sort_by=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('created_at', { descending: true });
+            });
+        });
+        it('GET status:200 ignores incorrect order query', () => {
+          return request
+            .get('/api/articles?order=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('created_at', { descending: true });
+            });
+        });
+        
       });
       describe('/articles/:article_id', () => {
         it('GET status:200 returns the requested article', () => {
