@@ -1,5 +1,5 @@
 exports.routeNotFound = (req, res) => {
-  res.status(404).send({ msg: 'Route Not Found' });
+  res.status(404).send({ msg: 'Route not found' });
 };
 
 exports.methodNotAllowed = (req, res) => {
@@ -11,6 +11,5 @@ exports.handle400s = (err, req, res, next) => {
 };
 
 exports.handle500 = (err, req, res, next) => {
-  console.log(err)
   res.status(500).send({ msg: 'Internal Server Error' });
 };

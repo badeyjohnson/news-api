@@ -53,6 +53,16 @@ describe('/', () => {
             articles.forEach(article => expect(article).to.contain.keys('comment_count'));
           });
       });
+      it('OTHER status:404 invalid method', () => {
+        const promises = ['post', 'put', 'patch', 'delete'].map((method) => {
+          return request[method]('/api/articles')
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal('Route not found');
+            });
+        });
+        return Promise.all(promises);
+      });
       describe('/articles?queries', () => {
         it('GET status:200 accepts author queries', () => {
           return request
@@ -128,7 +138,6 @@ describe('/', () => {
               expect(articles).to.be.sortedBy('created_at', { descending: true });
             });
         });
-        
       });
       describe('/articles/:article_id', () => {
         it('GET status:200 returns the requested article', () => {
@@ -213,7 +222,7 @@ describe('/', () => {
         .get('/invalid')
         .expect(404)
         .then(({ body: { msg } }) => {
-          expect(msg).to.eql('Route Not Found');
+          expect(msg).to.eql('Route not found');
         }));
     });
   });
