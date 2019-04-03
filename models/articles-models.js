@@ -41,7 +41,7 @@ exports.getArticles = ({ sort_by, order, ...queries }, { article_id }) => {
     .orderBy(sort_by, order)
     .where(queries)
     .modify((queryBuilder) => {
-      if (article_id !== undefined) queryBuilder.where({ 'articles.article_id': article_id });
+      if (article_id !== undefined) queryBuilder.select('articles.body').where({ 'articles.article_id': article_id });
     });
 };
 

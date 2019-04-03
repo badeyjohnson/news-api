@@ -143,10 +143,11 @@ describe('/', () => {
         it('GET status:200 returns the requested article', () => {
           const article5 = [
             {
-              article_id: 5,
-              title: 'UNCOVERED: catspiracy to bring down democracy',
-              topic: 'cats',
               author: 'rogersop',
+              title: 'UNCOVERED: catspiracy to bring down democracy',
+              article_id: 5,
+              topic: 'cats',
+              body: 'Bastet walks amongst us, and the cats are taking arms!',
               created_at: '2002-11-19T12:21:54.171Z',
               votes: 0,
               comment_count: '2',
