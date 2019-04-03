@@ -1,7 +1,22 @@
 const connection = require('../db/connection');
 
 exports.getArticles = ({ sort_by = 'created_at', order = 'desc', ...queries }, { article_id }) => {
-  //console.log(queries)
+  const validQueries = [
+    'author',
+    'title',
+    'articles.article_id',
+    'topic',
+    'articles.created_at',
+    'articles.votes',
+    'comment_count',
+  ];
+
+  Object.keys(queries).forEach((key) => {
+    if (!validQueries.includes(key)) {
+      delete queries[key];
+    }
+  });
+
   return connection
     .select(
       'author',

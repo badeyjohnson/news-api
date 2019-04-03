@@ -96,6 +96,14 @@ describe('/', () => {
               expect(articles).to.be.sortedBy('created_at', { descending: true });
             });
         });
+        it('GET status:200 ignores invalid query column', () => {
+          return request
+            .get('/api/articles?invalid=butter_bridge')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.sortedBy('created_at', { descending: true });
+            });
+        });
       });
       describe('/articles/:article_id', () => {
         it('GET status:200 returns the requested article', () => {
