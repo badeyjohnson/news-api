@@ -216,8 +216,21 @@ describe('/', () => {
               expect(msg).to.eql('Invalid article number');
             });
         });
+        it('DELETE status:204 deletes specified article with no response', () => {
+          return request
+            .delete('/api/articles/3')
+            .expect(204)
+            .then(() => {
+              return request
+                .get('/api/articles/3')
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.eql('Article does not exist');
+                });
+            });
+        });
         it('OTHER status:405 invalid method', () => {
-          const promises = ['post', 'put', 'delete'].map((method) => {
+          const promises = ['post', 'put'].map((method) => {
             return request[method]('/api/articles/1')
               .expect(405)
               .then(({ body: { msg } }) => {

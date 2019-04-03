@@ -1,4 +1,4 @@
-const { getArticles, patchArticle } = require('../models/articles-models');
+const { getArticles, patchArticle, deleteArticle } = require('../models/articles-models');
 
 exports.fetchArticles = (req, res, next) => {
   getArticles(req.query, req.params)
@@ -24,4 +24,10 @@ exports.updateArticle = (req, res, next) => {
       }
     })
     .catch(() => next({ status: 400, msg: 'Invalid article number' }));
+};
+
+exports.removeArticle = (req, res, next) => {
+  deleteArticle(req.params).then(() => {
+    res.status(204).json();
+  });
 };
