@@ -53,12 +53,12 @@ describe('/', () => {
             articles.forEach(article => expect(article).to.contain.keys('comment_count'));
           });
       });
-      it('OTHER status:404 invalid method', () => {
+      it('OTHER status:405 invalid method', () => {
         const promises = ['post', 'put', 'patch', 'delete'].map((method) => {
           return request[method]('/api/articles')
-            .expect(404)
+            .expect(405)
             .then(({ body: { msg } }) => {
-              expect(msg).to.equal('Route not found');
+              expect(msg).to.equal('Method not allowed');
             });
         });
         return Promise.all(promises);
@@ -214,6 +214,16 @@ describe('/', () => {
             .then(({ body: { msg } }) => {
               expect(msg).to.eql('Invalid article number');
             });
+        });
+        it('OTHER status:405 invalid method', () => {
+          const promises = ['post', 'put', 'delete'].map((method) => {
+            return request[method]('/api/articles/1')
+              .expect(405)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Method not allowed');
+              });
+          });
+          return Promise.all(promises);
         });
       });
     });

@@ -10,7 +10,8 @@ exports.fetchArticles = (req, res, next) => {
       }
     })
     .catch((err) => {
-      next({ status: 400, msg: 'Invalid article number' })});
+      next({ status: 400, msg: 'Invalid article number' });
+    });
 };
 
 exports.updateArticle = (req, res, next) => {

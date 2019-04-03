@@ -3,7 +3,7 @@ exports.routeNotFound = (req, res) => {
 };
 
 exports.methodNotAllowed = (req, res) => {
-  res.status(405).send({ msg: 'Method Not Allowed' });
+  res.status(405).send({ msg: 'Method not allowed' });
 };
 
 exports.handle400s = (err, req, res, next) => {
