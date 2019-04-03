@@ -88,6 +88,26 @@ describe('/', () => {
               expect(article[0].votes).to.eql(100);
             });
         });
+        it('PATCH status:404 non-existent article number', () => {
+          const ballotBox = { inc_votes: 100 };
+          return request
+            .patch('/api/articles/100')
+            .send(ballotBox)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql('Article does not exist');
+            });
+        });
+        it('PATCH status:404 NaN article number', () => {
+          const ballotBox = { inc_votes: 100 };
+          return request
+            .patch('/api/articles/invalid')
+            .send(ballotBox)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql('Invalid article number');
+            });
+        });
       });
     });
     describe('/*', () => {
