@@ -62,7 +62,15 @@ describe('/', () => {
               expect(articles).to.eql(article5);
             });
         });
-        it('GET status:200 invalid article number', () => {
+        it('GET status:404 non-existent article number', () => {
+          return request
+            .get('/api/articles/100')
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql('Article does not exist');
+            });
+        });
+        it('GET status:404 NaN article number', () => {
           return request
             .get('/api/articles/invalid')
             .expect(404)
@@ -70,7 +78,16 @@ describe('/', () => {
               expect(msg).to.eql('Invalid article number');
             });
         });
-
+        it('PATCH status:200 amends a specific article', () => {
+          const ballotBox = { inc_votes: 100 };
+          return request
+            .patch('/api/articles/1')
+            .send(ballotBox)
+            .expect(200)
+            .then(({ body: { article }}) => {
+              expect(article[0].votes).to.eql(100);
+            });
+        });
       });
     });
     describe('/*', () => {
