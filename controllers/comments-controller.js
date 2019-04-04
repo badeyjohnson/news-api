@@ -39,7 +39,15 @@ exports.updateComment = (req, res, next) => {
 };
 
 exports.removeComment = (req, res, next) => {
-  deleteComment(req.params).then(() => {
-    res.status(204).json();
-  });
+  deleteComment(req.params)
+    .then((response) => {
+      if (response.length === 0) {
+        next({ status: 404, msg: "Comment already doesn't exist" });
+      } else {
+        res.status(204).json();
+      }
+    })
+    .catch(() => {
+      next({ status: 400, msg: 'Invalid comment number' });
+    });
 };

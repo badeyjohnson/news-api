@@ -37,7 +37,6 @@ exports.patchComment = ({ comment_id }, { inc_votes }) => {
 };
 
 exports.deleteComment = ({ comment_id }) => {
-  console.log(comment_id)
   return connection('comments')
     .where({ comment_id })
     .del()

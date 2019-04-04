@@ -448,6 +448,22 @@ describe('/', () => {
       it('DELETE status:204 deletes specified comment with no response', () => {
         return request.delete('/api/comments/3').expect(204);
       });
+      it('DELETE status:404 non-existent comment number', () => {
+        return request
+          .delete('/api/comments/300')
+          .expect(404)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Comment already doesn't exist");
+          });
+      });
+      it('DELETE status:400 invalid comment number', () => {
+        return request
+          .delete('/api/comments/invalid')
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql('Invalid comment number');
+          });
+      });
     });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
