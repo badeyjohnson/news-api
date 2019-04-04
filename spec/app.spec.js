@@ -491,6 +491,24 @@ describe('/', () => {
             expect(user).to.eql(usr);
           });
       });
+      it('GET status:404 non-existent username', () => {
+        return request
+          .get('/api/users/100')
+          .expect(404)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql('User does not exist');
+          });
+      });
+      it('OTHER status:405 invalid method', () => {
+        const promises = ['delete', 'post', 'put'].map((method) => {
+          return request[method]('/api/users/butter_bridge')
+            .expect(405)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal('Method not allowed');
+            });
+        });
+        return Promise.all(promises);
+      });
     });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
