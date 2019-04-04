@@ -475,6 +475,23 @@ describe('/', () => {
         return Promise.all(promises);
       });
     });
+    describe('/users/:username', () => {
+      it('GET status:200 returns the specified user', () => {
+        const usr = [
+          {
+            username: 'butter_bridge',
+            name: 'jonny',
+            avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+          },
+        ];
+        return request
+          .get('/api/users/butter_bridge')
+          .expect(200)
+          .then(({ body: { user } }) => {
+            expect(user).to.eql(usr);
+          });
+      });
+    });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
         .get('/invalid')
