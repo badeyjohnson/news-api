@@ -1,4 +1,9 @@
-const { getComments, postComment, patchComment } = require('../models/comments-models');
+const {
+  getComments,
+  postComment,
+  patchComment,
+  deleteComment,
+} = require('../models/comments-models');
 
 exports.fetchComments = (req, res, next) => {
   getComments(req.query, req.params).then((comments) => {
@@ -28,7 +33,13 @@ exports.updateComment = (req, res, next) => {
         res.status(200).json({ comment });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       next({ status: 400, msg: 'Invalid request' });
-    })
+    });
+};
+
+exports.removeComment = (req, res, next) => {
+  deleteComment(req.params).then(() => {
+    res.status(204).json();
+  });
 };

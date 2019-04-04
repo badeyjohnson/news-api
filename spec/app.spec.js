@@ -445,6 +445,9 @@ describe('/', () => {
             expect(msg).to.eql('Invalid request');
           });
       });
+      it('DELETE status:204 deletes specified comment with no response', () => {
+        return request.delete('/api/comments/3').expect(204);
+      });
     });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request

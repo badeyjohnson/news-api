@@ -35,3 +35,11 @@ exports.patchComment = ({ comment_id }, { inc_votes }) => {
     .increment('votes', inc_votes)
     .returning('*');
 };
+
+exports.deleteComment = ({ comment_id }) => {
+  console.log(comment_id)
+  return connection('comments')
+    .where({ comment_id })
+    .del()
+    .returning('*');
+};
