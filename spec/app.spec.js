@@ -286,7 +286,7 @@ describe('/', () => {
               .post('/api/articles/1/comments')
               .send({ username: 'icellusedkars', body: 'a new comment' })
               .expect(202)
-              .then(({ body: {comment}}) => {
+              .then(({ body: { comment } }) => {
                 expect(comment[0]).to.contain.keys(
                   'created_by',
                   'body',
@@ -297,6 +297,44 @@ describe('/', () => {
                 );
                 expect(comment[0].created_by).to.eql('icellusedkars');
                 expect(comment[0].body).to.eql('a new comment');
+              });
+          });
+          it('POST status:403 username does not exist', () => {
+            return request
+              .post('/api/articles/1/comments')
+              .send({ username: 'notValid', body: 'a new comment' })
+              .expect(403)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Sign in to post a comment');
+              });
+          });
+          it('POST status:400 username field not provided', () => {
+            return request
+              .post('/api/articles/1/comments')
+              .send({ body: 'a new comment' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Incomplete comment');
+              });
+          });
+          it('POST status:400 body field not provided', () => {
+            return request
+              .post('/api/articles/1/comments')
+              .send({ username: 'icellusedkars' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Incomplete comment');
+              });
+          });
+          it('POST status:202 additional fields ignored', () => {
+            return request
+              .post('/api/articles/1/comments')
+              .send({ username: 'icellusedkars', body: 'another comment', extra: 'unneccesary' })
+              .expect(202)
+              .then(({ body: { comment } }) => {
+                expect(comment[0]).to.not.contain.keys('extra');
+                expect(comment[0].created_by).to.eql('icellusedkars');
+                expect(comment[0].body).to.eql('another comment');
               });
           });
           describe('/articles/:articles_id/comments?queries', () => {
