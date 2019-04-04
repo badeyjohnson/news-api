@@ -26,6 +26,16 @@ describe('/', () => {
             topics.forEach(topic => expect(topic).to.contain.keys('slug', 'description'));
           });
       });
+      it('OTHER status:405 methods not allowed', () => {
+        const promises = ['post', 'put', 'patch', 'delete'].map((method) => {
+          return request[method]('/api/topics')
+            .expect(405)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal('Method not allowed');
+            });
+        });
+        return Promise.all(promises);
+      });
     });
     describe('/articles', () => {
       it('GET status:200 returns all articles', () => {
@@ -384,6 +394,18 @@ describe('/', () => {
         });
       });
     });
+    // describe('/comments', () => {
+    //   it('PATCH status:200 amends a comment article', () => {
+    //     const ballotBox = { inc_votes: 100 };
+    //     return request
+    //       .patch('/api/comments/5')
+    //       .send(ballotBox)
+    //       .expect(200)
+    //       .then(({ body: { comment } }) => {
+    //         expect(comment[0].votes).to.eql(100);
+    //       });
+    //   });
+    // });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
         .get('/invalid')
