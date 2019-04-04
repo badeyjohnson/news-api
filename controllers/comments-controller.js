@@ -20,7 +20,15 @@ exports.addComment = (req, res, next) => {
 };
 
 exports.updateComment = (req, res, next) => {
-  patchComment(req.params, req.body).then((comment) => {
-    res.status(200).json({ comment });
-  });
+  patchComment(req.params, req.body)
+    .then((comment) => {
+      if (comment.length === 0) {
+        next({ status: 404, msg: 'Comment does not exist' });
+      } else {
+        res.status(200).json({ comment });
+      }
+    })
+    .catch((err) => {
+      next({ status: 400, msg: 'Invalid request' });
+    })
 };

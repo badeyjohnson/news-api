@@ -415,6 +415,36 @@ describe('/', () => {
             expect(comment[0].votes).to.eql(-100);
           });
       });
+      it('PATCH status:404 non-existent article number', () => {
+        const ballotBox = { inc_votes: 100 };
+        return request
+          .patch('/api/comments/1000')
+          .send(ballotBox)
+          .expect(404)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql('Comment does not exist');
+          });
+      });
+      it('PATCH status:400 NaN article number', () => {
+        const ballotBox = { inc_votes: 100 };
+        return request
+          .patch('/api/comments/invalid')
+          .send(ballotBox)
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql('Invalid request');
+          });
+      });
+      it('PATCH status:400 inc_votes NaN', () => {
+        const ballotBox = { inc_votes: 'up' };
+        return request
+          .patch('/api/comments/1')
+          .send(ballotBox)
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql('Invalid request');
+          });
+      });
     });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
