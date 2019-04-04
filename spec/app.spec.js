@@ -510,6 +510,24 @@ describe('/', () => {
         return Promise.all(promises);
       });
     });
+    describe('/api', () => {
+      it('GET status:200 returns a handy guide', () => {
+        return request
+          .get('/api')
+          .expect(200)
+          .then(({ body: { endpoints } }) => {
+            expect(endpoints).to.contain.keys(
+              '/api',
+              '/api/topics',
+              '/api/articles',
+              '/api/articles/:article_id',
+              '/api/articles/:article_id/comments',
+              '/api/comments/:comment_id',
+              '/api/users/:username',
+            );
+          });
+      });
+    });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
         .get('/invalid')
