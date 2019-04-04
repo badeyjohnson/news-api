@@ -394,7 +394,7 @@ describe('/', () => {
         });
       });
     });
-    describe('/comments', () => {
+    describe('/comments/:comment_id', () => {
       it('PATCH status:200 increases a comment votes', () => {
         const ballotBox = { inc_votes: 100 };
         return request
@@ -463,6 +463,16 @@ describe('/', () => {
           .then(({ body: { msg } }) => {
             expect(msg).to.eql('Invalid comment number');
           });
+      });
+      it('OTHER status:405 invalid method', () => {
+        const promises = ['get', 'post', 'put'].map((method) => {
+          return request[method]('/api/comments/1')
+            .expect(405)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal('Method not allowed');
+            });
+        });
+        return Promise.all(promises);
       });
     });
     describe('/*', () => {
