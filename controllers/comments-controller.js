@@ -1,4 +1,4 @@
-const { getComments, postComment } = require('../models/comments-models');
+const { getComments, postComment, patchComment } = require('../models/comments-models');
 
 exports.fetchComments = (req, res, next) => {
   getComments(req.query, req.params).then((comments) => {
@@ -17,4 +17,10 @@ exports.addComment = (req, res, next) => {
     .catch(() => {
       next({ status: 403, msg: 'Sign in to post a comment' });
     });
+};
+
+exports.updateComment = (req, res, next) => {
+  patchComment(req.params, req.body).then((comment) => {
+    res.status(200).json({ comment });
+  });
 };

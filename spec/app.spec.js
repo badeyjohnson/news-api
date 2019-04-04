@@ -394,18 +394,28 @@ describe('/', () => {
         });
       });
     });
-    // describe('/comments', () => {
-    //   it('PATCH status:200 amends a comment article', () => {
-    //     const ballotBox = { inc_votes: 100 };
-    //     return request
-    //       .patch('/api/comments/5')
-    //       .send(ballotBox)
-    //       .expect(200)
-    //       .then(({ body: { comment } }) => {
-    //         expect(comment[0].votes).to.eql(100);
-    //       });
-    //   });
-    // });
+    describe('/comments', () => {
+      it('PATCH status:200 increases a comment votes', () => {
+        const ballotBox = { inc_votes: 100 };
+        return request
+          .patch('/api/comments/5')
+          .send(ballotBox)
+          .expect(200)
+          .then(({ body: { comment } }) => {
+            expect(comment[0].votes).to.eql(100);
+          });
+      });
+      it('PATCH status:200 decreases a comment votes', () => {
+        const ballotBox = { inc_votes: -100 };
+        return request
+          .patch('/api/comments/5')
+          .send(ballotBox)
+          .expect(200)
+          .then(({ body: { comment } }) => {
+            expect(comment[0].votes).to.eql(-100);
+          });
+      });
+    });
     describe('/*', () => {
       it('ALL status:404 catches invalid URLs', () => request
         .get('/invalid')
