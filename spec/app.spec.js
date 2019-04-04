@@ -281,6 +281,24 @@ describe('/', () => {
                 expect(comments).to.be.sortedBy('created_at', { descending: true });
               });
           });
+          it('POST status:202 comment added to an article reponds with posted comment', () => {
+            return request
+              .post('/api/articles/1/comments')
+              .send({ username: 'icellusedkars', body: 'a new comment' })
+              .expect(202)
+              .then(({ body: {comment}}) => {
+                expect(comment[0]).to.contain.keys(
+                  'created_by',
+                  'body',
+                  'comment_id',
+                  'created_at',
+                  'votes',
+                  'article_id',
+                );
+                expect(comment[0].created_by).to.eql('icellusedkars');
+                expect(comment[0].body).to.eql('a new comment');
+              });
+          });
           describe('/articles/:articles_id/comments?queries', () => {
             it('GET status:200 accepts sort by queries', () => {
               return request
