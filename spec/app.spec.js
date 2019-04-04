@@ -337,6 +337,16 @@ describe('/', () => {
                 expect(comment[0].body).to.eql('another comment');
               });
           });
+          it('OTHER status:405 invalid requests dealt with', () => {
+            const promises = ['put', 'patch', 'delete'].map((method) => {
+              return request[method]('/api/articles/1/comments')
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Method not allowed');
+                });
+            });
+            return Promise.all(promises);
+          });
           describe('/articles/:articles_id/comments?queries', () => {
             it('GET status:200 accepts sort by queries', () => {
               return request
