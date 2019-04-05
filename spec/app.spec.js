@@ -492,6 +492,16 @@ describe('/', () => {
             expect(msg).to.eql('Invalid request');
           });
       });
+      it('PATCH status:200 ignores empty body', () => {
+        const ballotBox = { };
+        return request
+          .patch('/api/comments/5')
+          .send(ballotBox)
+          .expect(200)
+          .then(({ body: { comment } }) => {
+            expect(comment[0].votes).to.eql(0);
+          });
+      });
       it('DELETE status:204 deletes specified comment with no response', () => {
         return request.delete('/api/comments/3').expect(204);
       });
