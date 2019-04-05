@@ -18,7 +18,8 @@ exports.up = function (knex, Promise) {
       .integer('article_id')
       .unsigned()
       .references('article_id')
-      .inTable('articles');
+      .inTable('articles')
+      .onDelete('cascade');
     commentsTable
       .timestamp('created_at')
       .notNullable()

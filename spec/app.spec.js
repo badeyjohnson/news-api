@@ -247,6 +247,11 @@ describe('/', () => {
                 });
             });
         });
+        it('DELETE status:204 deletes article and related comments', () => {
+          return request
+            .delete('/api/articles/1')
+            .expect(204)
+        });
         it('DELETE status:404 non-existent article number', () => {
           return request
             .delete('/api/articles/300')
