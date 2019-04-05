@@ -25,7 +25,7 @@ exports.addComment = (req, res, next) => {
   }
   postComment(req.params, req.body)
     .then((comment) => {
-      res.status(202).json({ comment });
+      res.status(201).json({ comment });
     })
     .catch(() => {
       next({ status: 403, msg: 'Sign in to post a comment' });

@@ -320,11 +320,11 @@ describe('/', () => {
                 expect(msg).to.eql('Invalid article number');
               });
           });
-          it('POST status:202 comment added to an article reponds with posted comment', () => {
+          it('POST status:201 comment added to an article reponds with posted comment', () => {
             return request
               .post('/api/articles/1/comments')
               .send({ username: 'icellusedkars', body: 'a new comment' })
-              .expect(202)
+              .expect(201)
               .then(({ body: { comment } }) => {
                 expect(comment[0]).to.contain.keys(
                   'created_by',
@@ -365,11 +365,11 @@ describe('/', () => {
                 expect(msg).to.eql('Incomplete comment');
               });
           });
-          it('POST status:202 additional fields ignored', () => {
+          it('POST status:201 additional fields ignored', () => {
             return request
               .post('/api/articles/1/comments')
               .send({ username: 'icellusedkars', body: 'another comment', extra: 'unneccesary' })
-              .expect(202)
+              .expect(201)
               .then(({ body: { comment } }) => {
                 expect(comment[0]).to.not.contain.keys('extra');
                 expect(comment[0].created_by).to.eql('icellusedkars');
