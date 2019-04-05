@@ -1,4 +1,4 @@
-const { getArticles, patchArticle, deleteArticle } = require('../models/articles-models');
+const { getArticles, getArticle, patchArticle, deleteArticle } = require('../models/articles-models');
 
 exports.fetchArticles = (req, res, next) => {
   getArticles(req.query, req.params)
@@ -9,7 +9,21 @@ exports.fetchArticles = (req, res, next) => {
         res.status(200).json({ articles });
       }
     })
-    .catch((err) => {
+    .catch(() => {
+      next({ status: 400, msg: 'Invalid article number' });
+    });
+};
+
+exports.fetchArticle = (req, res, next) => {
+  getArticle(req.params)
+    .then(([article]) => {
+      if (!article) {
+        next({ status: 404, msg: 'Article does not exist' });
+      } else {
+        res.status(200).json({ article });
+      }
+    })
+    .catch(() => {
       next({ status: 400, msg: 'Invalid article number' });
     });
 };

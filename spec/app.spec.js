@@ -151,23 +151,21 @@ describe('/', () => {
       });
       describe('/articles/:article_id', () => {
         it('GET status:200 returns the requested article', () => {
-          const article5 = [
-            {
-              author: 'rogersop',
-              title: 'UNCOVERED: catspiracy to bring down democracy',
-              article_id: 5,
-              topic: 'cats',
-              body: 'Bastet walks amongst us, and the cats are taking arms!',
-              created_at: '2002-11-19T12:21:54.171Z',
-              votes: 0,
-              comment_count: '2',
-            },
-          ];
+          const article5 = {
+            author: 'rogersop',
+            title: 'UNCOVERED: catspiracy to bring down democracy',
+            article_id: 5,
+            topic: 'cats',
+            body: 'Bastet walks amongst us, and the cats are taking arms!',
+            created_at: '2002-11-19T12:21:54.171Z',
+            votes: 0,
+            comment_count: '2',
+          };
           return request
             .get('/api/articles/5')
             .expect(200)
-            .then(({ body: { articles } }) => {
-              expect(articles).to.eql(article5);
+            .then(({ body: { article } }) => {
+              expect(article).to.eql(article5);
             });
         });
         it('GET status:404 non-existent article number', () => {

@@ -1,5 +1,5 @@
 const articlesRouter = require('express').Router();
-const { fetchArticles, updateArticle, removeArticle } = require('../controllers/articles-controller');
+const { fetchArticles, fetchArticle, updateArticle, removeArticle } = require('../controllers/articles-controller');
 const { fetchComments, addComment } = require('../controllers/comments-controller');
 const { methodNotAllowed } = require('../errors');
 
@@ -10,7 +10,7 @@ articlesRouter
 
 articlesRouter
   .route('/:article_id')
-  .get(fetchArticles)
+  .get(fetchArticle)
   .patch(updateArticle)
   .delete(removeArticle)
   .all(methodNotAllowed);

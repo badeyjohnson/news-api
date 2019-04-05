@@ -17,9 +17,7 @@ exports.getArticles = ({ sort_by, order, ...queries }, { article_id }) => {
     }
   });
 
-  if (!validQueries.includes(sort_by)) {
-    sort_by = 'created_at';
-  }
+  sort_by = validQueries.includes(sort_by) ? sort_by : 'created_at';
 
   if (!['asc', 'desc'].includes(order)) {
     order = 'desc';
@@ -43,6 +41,24 @@ exports.getArticles = ({ sort_by, order, ...queries }, { article_id }) => {
     .modify((queryBuilder) => {
       if (article_id !== undefined) queryBuilder.select('articles.body').where({ 'articles.article_id': article_id });
     });
+};
+
+exports.getArticle = ({ article_id }) => {
+  return connection
+    .select(
+      'author',
+      'title',
+      'articles.article_id',
+      'topic',
+      'articles.body',
+      'articles.created_at',
+      'articles.votes',
+    )
+    .from('articles')
+    .leftJoin('comments', 'articles.article_id', 'comments.article_id')
+    .count('comment_id as comment_count')
+    .groupBy('articles.article_id')
+    .where({ 'articles.article_id': article_id });
 };
 
 exports.patchArticle = ({ article_id }, { inc_votes }) => {
