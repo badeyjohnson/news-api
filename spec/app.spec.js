@@ -108,6 +108,40 @@ describe('/', () => {
               expect(articles).to.be.sortedBy('created_at', { descending: false });
             });
         });
+        it('GET status:200 accepts limit', () => {
+          return request
+            .get('/api/articles?limit=10')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.have.lengthOf(10);
+            });
+        });
+        it('GET status:200 accepts page query p from which to base limit', () => {
+          return request
+            .get('/api/articles?p=2&limit=2')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.have.lengthOf(2);
+              expect(articles[0]).to.eql({
+                article_id: 3,
+                title: 'Eight pug gifs that remind me of mitch',
+                topic: 'mitch',
+                author: 'icellusedkars',
+                comment_count: '0',
+                created_at: '2010-11-17T12:21:54.171Z',
+                votes: 0,
+              });
+              expect(articles[1]).to.eql({
+                article_id: 4,
+                title: 'Student SUES Mitch!',
+                topic: 'mitch',
+                author: 'rogersop',
+                comment_count: '0',
+                created_at: '2006-11-18T12:21:54.171Z',
+                votes: 0,
+              });
+            });
+        });
         it('GET status:200 defaults to date sort_by, descending', () => {
           return request
             .get('/api/articles')
@@ -225,7 +259,7 @@ describe('/', () => {
             });
         });
         it('PATCH status:200 no body responds with unmodified article', () => {
-          const ballotBox = { };
+          const ballotBox = {};
           return request
             .patch('/api/articles/5')
             .send(ballotBox)
@@ -248,9 +282,7 @@ describe('/', () => {
             });
         });
         it('DELETE status:204 deletes article and related comments', () => {
-          return request
-            .delete('/api/articles/1')
-            .expect(204)
+          return request.delete('/api/articles/1').expect(204);
         });
         it('DELETE status:404 non-existent article number', () => {
           return request
@@ -493,7 +525,7 @@ describe('/', () => {
           });
       });
       it('PATCH status:200 ignores empty body', () => {
-        const ballotBox = { };
+        const ballotBox = {};
         return request
           .patch('/api/comments/5')
           .send(ballotBox)
