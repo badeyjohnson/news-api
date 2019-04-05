@@ -112,6 +112,8 @@ Enter http://localhost:9090/api/users/grumpy19 into a local browser to access in
  - to order the results, amend to the URL: ?sort_by=votes
  - to sort ascending, amend to the URL ?order=asc
  - to sort descending, amend to the URL ?order=desc
+ - pagination - defaults page 1, change the page by amending URL ?p=2
+ - number per page - defaults to 25, change by amending URL ?limit=10
 
 For example:
 
