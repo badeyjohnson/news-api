@@ -1,13 +1,10 @@
 const connection = require('../db/connection');
 
 exports.getComments = ({ sort_by, order }, { article_id }) => {
-  if (!['asc', 'desc'].includes(order)) {
-    order = 'desc';
-  }
+  order = ['asc', 'desc'].includes(order) ? order : 'desc';
   const validQueries = ['created_by', 'author', 'comment_id', 'created_at', 'votes'];
-  if (!validQueries.includes(sort_by)) {
-    sort_by = 'created_at';
-  }
+  sort_by = validQueries.includes(sort_by) ? sort_by : 'created_at';
+
   return connection
     .select(
       'comments.created_by as author',

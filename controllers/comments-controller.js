@@ -6,9 +6,17 @@ const {
 } = require('../models/comments-models');
 
 exports.fetchComments = (req, res, next) => {
-  getComments(req.query, req.params).then((comments) => {
-    res.status(200).json({ comments });
-  });
+  getComments(req.query, req.params)
+    .then((comments) => {
+      if (comments.length === 0 && Object.keys(req.params).length) {
+        next({ status: 404, msg: 'Article does not exist' });
+      } else {
+        res.status(200).json({ comments });
+      }
+    })
+    .catch(() => {
+      next({ status: 400, msg: 'Invalid article number' });
+    });
 };
 
 exports.addComment = (req, res, next) => {

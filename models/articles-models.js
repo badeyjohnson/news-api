@@ -19,9 +19,7 @@ exports.getArticles = ({ sort_by, order, ...queries }, { article_id }) => {
 
   sort_by = validQueries.includes(sort_by) ? sort_by : 'created_at';
 
-  if (!['asc', 'desc'].includes(order)) {
-    order = 'desc';
-  }
+  order = ['asc', 'desc'].includes(order) ? order : 'desc';
 
   return connection
     .select(

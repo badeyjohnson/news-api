@@ -304,6 +304,22 @@ describe('/', () => {
                 expect(comments).to.be.sortedBy('created_at', { descending: true });
               });
           });
+          it('GET status:404 non-existent article number', () => {
+            return request
+              .get('/api/articles/100/comments')
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Article does not exist');
+              });
+          });
+          it('GET status:400 NaN article number', () => {
+            return request
+              .get('/api/articles/invalid/comments')
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Invalid article number');
+              });
+          });
           it('POST status:202 comment added to an article reponds with posted comment', () => {
             return request
               .post('/api/articles/1/comments')
