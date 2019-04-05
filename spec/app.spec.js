@@ -342,9 +342,27 @@ describe('/', () => {
             return request
               .post('/api/articles/1/comments')
               .send({ username: 'notValid', body: 'a new comment' })
-              .expect(403)
+              .expect(404)
               .then(({ body: { msg } }) => {
-                expect(msg).to.eql('Sign in to post a comment');
+                expect(msg).to.eql('Article or user not found');
+              });
+          });
+          it('POST status:404 non-existent article number', () => {
+            return request
+              .post('/api/articles/100/comments')
+              .send({ username: 'icellusedkars', body: 'a new comment' })
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Article or user not found');
+              });
+          });
+          it('POST status:400 NaN article number', () => {
+            return request
+              .post('/api/articles/invalid/comments')
+              .send({ username: 'icellusedkars', body: 'a new comment' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.eql('Invalid article number');
               });
           });
           it('POST status:400 username field not provided', () => {

@@ -27,8 +27,12 @@ exports.addComment = (req, res, next) => {
     .then((comment) => {
       res.status(201).json({ comment });
     })
-    .catch(() => {
-      next({ status: 403, msg: 'Sign in to post a comment' });
+    .catch((err) => {
+      if (err.code === '22P02') {
+        next({ status: 400, msg: 'Invalid article number' });
+      } else {
+        next({ status: 404, msg: 'Article or user not found' });
+      }
     });
 };
 
