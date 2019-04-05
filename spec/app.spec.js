@@ -469,6 +469,36 @@ describe('/', () => {
                   expect(comments).to.be.sortedBy('created_at', { descending: true });
                 });
             });
+            it('GET status:200 accepts limit', () => {
+              return request
+                .get('/api/articles/1/comments?limit=2')
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.have.lengthOf(2);
+                });
+            });
+            it('GET status:200 accepts page query p from which to base limit', () => {
+              return request
+                .get('/api/articles/1/comments?p=2&limit=2')
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.have.lengthOf(2);
+                  expect(comments[0]).to.eql({
+                    author: 'icellusedkars',
+                    body: ' I carry a log — yes. Is it funny to you? It is not to me.',
+                    comment_id: 4,
+                    created_at: '2014-11-23T12:36:03.389Z',
+                    votes: -100,
+                  });
+                  expect(comments[1]).to.eql({
+                    author: 'icellusedkars',
+                    body: 'I hate streaming noses',
+                    comment_id: 5,
+                    created_at: '2013-11-23T12:36:03.389Z',
+                    votes: 0,
+                  });
+                });
+            });
           });
         });
       });

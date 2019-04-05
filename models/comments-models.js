@@ -1,9 +1,10 @@
 const connection = require('../db/connection');
 
-exports.getComments = ({ sort_by, order }, { article_id }) => {
+exports.getComments = ({ sort_by, order, limit = 25, p = 1 }, { article_id }) => {
   order = ['asc', 'desc'].includes(order) ? order : 'desc';
   const validQueries = ['created_by', 'author', 'comment_id', 'created_at', 'votes'];
   sort_by = validQueries.includes(sort_by) ? sort_by : 'created_at';
+  const offset = (p - 1) * limit;
 
   return connection
     .select(
@@ -16,7 +17,9 @@ exports.getComments = ({ sort_by, order }, { article_id }) => {
     .from('comments')
     .leftJoin('articles', 'comments.article_id', 'articles.article_id')
     .orderBy(sort_by, order)
-    .where({ 'comments.article_id': article_id });
+    .where({ 'comments.article_id': article_id })
+    .limit(limit)
+    .offset(offset);
 };
 
 exports.postComment = ({ article_id }, { username, body }) => {
