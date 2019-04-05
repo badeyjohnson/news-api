@@ -5,7 +5,6 @@ const { routeNotFound, handle400s, handle500 } = require('./errors');
 
 const app = express();
 
-app.use(bodyParser.json());
 app.use(express.json());
 app.use('/api', apiRouter);
 
