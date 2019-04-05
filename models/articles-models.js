@@ -64,7 +64,7 @@ exports.getArticle = ({ article_id }) => {
 exports.patchArticle = ({ article_id }, { inc_votes }) => {
   return connection('articles')
     .where({ article_id })
-    .increment('votes', inc_votes) // if undefined inc_votes = 0
+    .increment('votes', inc_votes || 0)
     .returning('*');
 };
 

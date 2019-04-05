@@ -224,6 +224,16 @@ describe('/', () => {
               expect(msg).to.eql('Invalid article number');
             });
         });
+        it('PATCH status:200 no body responds with unmodified article', () => {
+          const ballotBox = { };
+          return request
+            .patch('/api/articles/5')
+            .send(ballotBox)
+            .expect(200)
+            .then(({ body: { article } }) => {
+              expect(article[0].votes).to.eql(0);
+            });
+        });
         it('DELETE status:204 deletes specified article with no response', () => {
           return request
             .delete('/api/articles/3')
