@@ -8,7 +8,7 @@ const {
 exports.fetchComments = (req, res, next) => {
   getComments(req.query, req.params)
     .then((comments) => {
-      if (comments.length === 0 && Object.keys(req.params).length) {
+      if (comments.length === 0 && !Object.keys(req.query).length) {
         next({ status: 404, msg: 'Article does not exist' });
       } else {
         res.status(200).json({ comments });

@@ -3,7 +3,7 @@ const { getArticles, getArticle, patchArticle, deleteArticle } = require('../mod
 exports.fetchArticles = (req, res, next) => {
   getArticles(req.query, req.params)
     .then((articles) => {
-      if (articles.length === 0 && Object.keys(req.params).length) {
+      if (articles.length === 0 && !Object.keys(req.query).length) {
         next({ status: 404, msg: 'Article does not exist' });
       } else {
         res.status(200).json({ articles });
